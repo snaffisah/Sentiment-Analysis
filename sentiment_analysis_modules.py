@@ -7,12 +7,14 @@ Created on Thu May 12 09:52:01 2022
 
 import re
 import json
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.layers import Bidirectional
 from tensorflow.keras import Sequential
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.layers import Bidirectional, Embedding
 from tensorflow.keras.layers import Dense, LSTM, Dropout
-from tensorflow.keras.layers import Embedding
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
+
 
 class ExploratoryDataAnalysis():
     
@@ -22,17 +24,17 @@ class ExploratoryDataAnalysis():
 
     def remove_tags(self,data):
         '''
-        To remove the html function
+        To remove the html function and return review in series
 
         Parameters
         ----------
-        data : TYPE
-            DESCRIPTION.
+        data : Array
+            Raw training data containing strings
 
         Returns
         -------
-        data : TYPE
-            DESCRIPTION.
+        data : Array
+            Clean all data, without html function
 
         '''
         for index, text in enumerate(data):
@@ -48,12 +50,12 @@ class ExploratoryDataAnalysis():
         Parameters
         ----------
         data : Array
-            RAW TRAINING DATA CONTAINING STRINGS
+            Cleaned training data containing strings
 
         Returns
         -------
-        data : List
-            CLEANED DATA WITH ALL LETTERS CONVERTED INTO LOWERCASE
+        data : Array
+            Cleaned all data that converted into lowercase
 
         '''
         for index,text in enumerate(data):
@@ -63,6 +65,30 @@ class ExploratoryDataAnalysis():
     
     def sentiment_tokenizer(self,data,token_save_path,
                             num_words=10000, oov_token='<OOV>', prt=False):
+        '''
+        This function will collect each of the sentiment word according to the 
+        limit set and save it desending from the most frequently appeared 
+        words and ignore the rest
+
+        Parameters
+        ----------
+        data : Array
+            Cleaned training data
+        token_save_path : cwd
+            Save data in current working directory in JSON format
+        num_words : int, optional
+            The limit of token words need to consider. The default is 10000.
+        oov_token : The default is '<OOV>'
+            Out of vacabolary words. Will be ignored and set value as 1.
+        prt : Boolean
+            To print the token words. The default is False.
+
+        Returns
+        -------
+        data : Dict
+            Return the dictionary of the token in ascending order
+
+        '''
         
         # tokenizer to vectorize the words
         tokenizer = Tokenizer(num_words=num_words, oov_token=oov_token)
@@ -88,6 +114,20 @@ class ExploratoryDataAnalysis():
         return data
         
     def sentiment_pad_sequence(self,data):
+        '''
+        This function padding the token words and the sentiment together
+
+        Parameters
+        ----------
+        data : Array
+            Cleaned training data
+
+        Returns
+        -------
+        data: Array
+            Paddied of training data and its sentiment
+
+        '''
         
         return pad_sequences(data, maxlen=200, padding='post',
                              truncating='post')
@@ -99,6 +139,27 @@ class ModelCreation():
     
     def lstm_layer(self,num_words, nb_categories, embedding_output=64, 
                    nodes=32, dropout=0.2):
+        '''
+        This function is to creates a LSTM model with 2 hidden layers. 
+        Last layer of the model comrises of softmax activation function
+     
+        Parameters
+        ----------
+        num_words:Int
+        nb_categories: Int
+            Contains the lenght of unique sentiment
+        embedding output: Int
+            DESCRIPTION. The default is 64
+        nodes : Int, optional
+            DESCRIPTION. The default is 32
+        dropout : Float, optional
+            DESCRIPTION. The default is 0.2
+     
+        Returns
+        -------
+        Model: Created Model
+
+        '''
 
         model = Sequential()
         model.add(Embedding(num_words, embedding_output))
@@ -113,6 +174,27 @@ class ModelCreation():
     
     def simple_lstm_layer(self,num_words, nb_categories, embedding_output=64, 
                           nodes=32, dropout=0.2):
+        '''
+        This function is to creates a simple LSTM model with 1 hidden layers. 
+        Last layer of the model comrises of softmax activation function
+     
+        Parameters
+        ----------
+        num_words:Int
+        nb_categories: Int
+            Contains the lenght of unique sentiment
+        embedding output: Int
+            DESCRIPTION. The default is 64
+        nodes : Int, optional
+            DESCRIPTION. The default is 32
+        dropout : Float, optional
+            DESCRIPTION. The default is 0.2
+     
+        Returns
+        -------
+        Model: Created Model
+        
+        '''
 
         model = Sequential()
         model.add(Embedding(num_words, embedding_output))
@@ -125,6 +207,24 @@ class ModelCreation():
     
 class ModelEvaluation():
     def report_metrics(self, y_true, y_pred):
+        '''
+        This function is to evaluate the model created. 
+        1. Classification report
+        2. Confusion matrix
+        3. Accuracy score
+
+        Parameters
+        ----------
+        y_true : Array
+            True value in array
+        y_pred : Array
+            Prediction value in array
+
+        Returns
+        -------
+        None.
+
+        '''
         print(classification_report(y_true, y_pred))
         print(confusion_matrix(y_true, y_pred))
         print(accuracy_score(y_true, y_pred))
