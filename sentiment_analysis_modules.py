@@ -115,7 +115,8 @@ class ExploratoryDataAnalysis():
         
     def sentiment_pad_sequence(self,data):
         '''
-        This function padding the token words and the sentiment together
+        This function padding the token words and the sentiment together and
+        makesure all data in same length. If exceed, it will be ignored
 
         Parameters
         ----------
