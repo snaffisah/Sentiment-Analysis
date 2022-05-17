@@ -19,9 +19,9 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import TensorBoard
 
 URL = 'https://raw.githubusercontent.com/Ankit152/IMDB-sentiment-analysis/master/IMDB-Dataset.csv'
-TOKEN_SAVE_PATH = os.path.join(os.getcwd(), 'tokenizer_data.json')
-LOG_PATH = os.path.join(os.getcwd(),'log')
-MODEL_SAVE_PATH = os.path.join(os.getcwd(),'model.h5')
+TOKEN_SAVE_PATH = os.path.join(os.getcwd(),'Saved_path', 'tokenizer_data.json')
+LOG_PATH = os.path.join(os.getcwd(), 'log')
+MODEL_SAVE_PATH = os.path.join(os.getcwd(),'Saved_path', 'model.h5')
  
 #%% EDA
 # Step 1) Import data

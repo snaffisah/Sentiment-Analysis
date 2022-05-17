@@ -12,8 +12,8 @@ from tensorflow.keras.models import load_model
 from sentiment_analysis_modules import ExploratoryDataAnalysis
 from tensorflow.keras.preprocessing.text import tokenizer_from_json
 
-MODEL_PATH = os.path.join(os.getcwd(), 'model.h5')
-JSON_PATH = os.path.join(os.getcwd(), 'tokenizer_data.json')
+MODEL_PATH = os.path.join(os.getcwd(), 'Saved_path', 'model.h5')
+JSON_PATH = os.path.join(os.getcwd(), 'Saved_path', 'tokenizer_data.json')
 
 #%%
 sentiment_classifier = load_model(MODEL_PATH)

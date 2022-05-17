@@ -240,8 +240,8 @@ if __name__ == '__main__':
     import pandas as pd 
     
     LOG_PATH = os.path.join(os.getcwd(),'log')
-    MODEL_SAVE_PATH = os.path.join(os.getcwd(),'model.h5')
-    TOKENIZER_JSON_PATH = os.path.join(os.getcwd(), 'tokenizer_data.json')
+    MODEL_SAVE_PATH = os.path.join(os.getcwd(),'Saved_path', 'model.h5')
+    TOKENIZER_JSON_PATH = os.path.join(os.getcwd(),'Saved_path', 'tokenizer_data.json')
     
     URL = 'https://raw.githubusercontent.com/Ankit152/IMDB-sentiment-analysis/master/IMDB-Dataset.csv'
     
