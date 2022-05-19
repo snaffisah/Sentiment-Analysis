@@ -64,7 +64,7 @@ class ExploratoryDataAnalysis():
         return data
     
     def sentiment_tokenizer(self,data,token_save_path,
-                            num_words=10000, oov_token='<OOV>', prt=False):
+                            num_words=50000, oov_token='<OOV>', prt=False):
         '''
         This function will collect each of the sentiment word according to the 
         limit set and save it desending from the most frequently appeared 
